@@ -1,24 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import styles from './MyStyles.module.css'
+import { Provider } from 'unstated'
+import TimesheetsContainer from './TimesheetsContainer'
+import Timesheets from './Timesheets'
+
+const timesheetsContainer = new TimesheetsContainer()
 
 function App() {
+  useEffect(() => {
+    timesheetsContainer.load()
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Provider inject={[timesheetsContainer]}>
+        <Timesheets/>
+      </Provider>
     </div>
   );
 }

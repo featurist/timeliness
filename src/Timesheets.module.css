@@ -1,0 +1,11 @@
+.duration {
+  background-color: green;
+}
+
+.noDuration {
+  /* background-color: red; */
+}
+
+.selected {
+  background-color: yellow;
+}
