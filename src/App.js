@@ -1,21 +1,16 @@
 import React, {useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import styles from './MyStyles.module.css'
 import { Provider } from 'unstated'
-import TimesheetsContainer from './TimesheetsContainer'
 import Timesheets from './Timesheets'
 
-const timesheetsContainer = new TimesheetsContainer()
-
-function App() {
+function App({timesheets}) {
   useEffect(() => {
-    timesheetsContainer.load()
+    timesheets.load()
   })
 
   return (
     <div>
-      <Provider inject={[timesheetsContainer]}>
+      <Provider inject={[timesheets]}>
         <Timesheets/>
       </Provider>
     </div>
