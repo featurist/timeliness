@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     borderStyle: 'dashed'
   },
   weekend: {
-    backgroundColor: theme.palette.grey[50] + '50',
+    backgroundColor: theme.palette.grey[50] + '50', // + HEX opacity (00 to ff)
     opacity: 0.3
   },
   publicholiday: {
@@ -121,7 +121,7 @@ function Timesheets () {
                 <TableHead>
                   <TableRow>
                     <TableCell padding="checkbox">
-                      <Checkbox />
+                      <Checkbox disabled />
                     </TableCell>
                     <TableCell>
                       Date
@@ -147,7 +147,7 @@ function Timesheets () {
                       
                       return <TableRow key={`tableRow-${index}`} className={dayTypeClass}>
                         <TableCell padding="checkbox">
-                          <Checkbox />
+                          <Checkbox disabled />
                         </TableCell>
                         <TableCell>{renderDate(day.date)}</TableCell>
                         {
