@@ -16,6 +16,7 @@ import dayStyle from './Day.module.css'
 import dateFormat from 'dateformat'
 import ms from 'ms'
 
+// TODO: use theming provided by material instead of styled components"
 const Submit = styled(Button)`
   & {
     margin-top: 8px !important;
