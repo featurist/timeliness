@@ -8,7 +8,7 @@ const NavBar = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography component="h2" variant="title" color="inherit">
+          <Typography component="h2" variant="h6" color="inherit">
             Timesheets
           </Typography>
         </Toolbar>

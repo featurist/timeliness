@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from "styled-components"
+import { makeStyles } from '@material-ui/core/styles'
 import PageContainer from "@material-ui/core/Container"
 import { Paper, TextField, Checkbox, Button, Toolbar, FormGroup, Typography, TableBody } from "@material-ui/core"
 import { Table, TableRow, TableCell, TableHead } from "@material-ui/core"
@@ -13,23 +13,23 @@ import dayStyle from './Day.module.css'
 import dateFormat from 'dateformat'
 import ms from 'ms'
 
-// TODO: use theming provided by material instead of styled components"
-const Submit = styled(Button)`
-  & {
-    margin-top: 8px !important;
-    margin-bottom: 4px !important;
-  }
-`
-
-const TextFieldWrapper = styled(TextField)`
-  margin-right: 20px !important;
-`
-
-const ActionsBar = styled(Toolbar)`
-  margin-top: 30px !important;
-  margin-bottom: 30px !important;
-  padding-top: 10px !important;
-`
+const useStyles = makeStyles(theme => ({
+  pageContainer: {
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4)
+  },
+  actionBar: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
+  },
+  submit: {
+    marginTop: 8,
+    marginBottom: 4
+  },
+  textField: {
+    marginRight: theme.spacing(2)
+  },
+}));
 
 function renderDate (date) {
   return dateFormat(date, 'ddd, d mmm')
@@ -62,6 +62,7 @@ function renderDuration (duration) {
 
 function Timesheets () {
   const [fillDuration, setFillDuration] = useState('8h')
+  const classes = useStyles()
 
   return <>
     <NavBar elevation={3} />
@@ -70,21 +71,23 @@ function Timesheets () {
         const tasks = timesheets.tasks()
 
         return <>
-          <PageContainer maxWidth="xl">
+          <PageContainer maxWidth="xl" className={classes.pageContainer}>
             <Paper>
-              <ActionsBar elevation={0}>
+              <Toolbar className={classes.actionBar}>
                 <FormGroup row>
-                <TextFieldWrapper
-                  label="Duration"
-                  type="text"
-                  name="duration"
-                  margin="dense"
-                  variant="outlined"
-                  value={fillDuration} onChange={ev => setFillDuration(ev.target.value)}
-                />
-                <Submit variant="contained" color="secondary" size="medium" onClick={() => timesheets.fillSelected(ms(fillDuration))}>Fill Selected</Submit>
+                  <TextField
+                    label="Duration"
+                    type="text"
+                    name="duration"
+                    margin="dense"
+                    variant="outlined"
+                    value={fillDuration}
+                    onChange={ev => setFillDuration(ev.target.value)}
+                    className={classes.textField}
+                  />
+                  <Button className={classes.submit} variant="contained" color="secondary" size="medium" onClick={() => timesheets.fillSelected(ms(fillDuration))}>Fill Selected</Button>
                 </FormGroup>
-              </ActionsBar>
+              </Toolbar>
 
               <Table>
                 <TableHead>
@@ -95,13 +98,13 @@ function Timesheets () {
                     <TableCell>
                       Date
                     </TableCell>
-                    {tasks.map(task => {
+                    {tasks.map((task, index) => {
                       const selectDaysForTask = ev => {
                         timesheets.selectDaysForTask(task)
                         ev.stopPropagation()
                       }
 
-                      return <TableCell onClick={selectDaysForTask}>{task.name}</TableCell>
+                      return <TableCell key={`tableCellTitle-${index}`} onClick={selectDaysForTask}>{task.name}</TableCell>
                     })}
                     <TableCell>
                       Comments
@@ -110,9 +113,9 @@ function Timesheets () {
                 </TableHead>
                 <TableBody>
                   {
-                    timesheets.days().map(day => {
+                    timesheets.days().map((day, index) => {
                       const className = dayStyle[day.type]
-                      return <TableRow className={className}>
+                      return <TableRow key={`tableRow-${index}`} className={className}>
                         <TableCell padding="checkbox">
                           <Checkbox />
                         </TableCell>
@@ -124,9 +127,9 @@ function Timesheets () {
                             const className = s => [dayTask && dayTask.selected ? style.selected : '', s].filter(Boolean).join(' ')
 
                             if (dayTask.duration) {
-                              return <TableCell onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.duration)}>{renderDuration(dayTask.duration)}</TableCell>
+                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.duration)}>{renderDuration(dayTask.duration)}</TableCell>
                             } else {
-                              return <TableCell onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.noDuration)}></TableCell>
+                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.noDuration)}></TableCell>
                             }
                           })
                         }
