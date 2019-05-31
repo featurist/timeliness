@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import PageContainer from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
+import Toolbar from "@material-ui/core/Toolbar"
+import FormGroup from "@material-ui/core/FormGroup"
 import { Provider, Subscribe, Container } from 'unstated'
 import parseDuration from 'iso8601-duration'
 import NavBar from "./components/NavBar"
@@ -12,15 +16,21 @@ import dayStyle from './Day.module.css'
 import dateFormat from 'dateformat'
 import ms from 'ms'
 
-const Button = styled.button`
+const Submit = styled(Button)`
+  & {
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+  }
 `
 
-const Input = styled.input`
+const TextFieldWrapper = styled(TextField)`
+  margin-right: 20px !important;
 `
 
-const ActionsBar = styled(Paper)`
-  margin-top: 30px;
-  margin-bottom: 30px;
+const ActionsBar = styled(Toolbar)`
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
+  padding-top: 10px !important;
 `
 
 function renderDate (date) {
@@ -63,12 +73,21 @@ function Timesheets () {
 
         return <>
           <PageContainer maxWidth="xl">
-            <ActionsBar elevation={0}>
-              <Button onClick={() => timesheets.fillSelected(ms(fillDuration))}>fill selected</Button>
-              <Input type="text" value={fillDuration} onChange={ev => setFillDuration(ev.target.value)} />
-            </ActionsBar>
-
             <Paper>
+              <ActionsBar elevation={0}>
+                <FormGroup row>
+                <TextFieldWrapper
+                  label="Duration"
+                  type="text"
+                  name="duration"
+                  margin="dense"
+                  variant="outlined"
+                  value={fillDuration} onChange={ev => setFillDuration(ev.target.value)}
+                />
+                <Submit variant="contained" color="secondary" size="medium" onClick={() => timesheets.fillSelected(ms(fillDuration))}>Fill Selected</Submit>
+                </FormGroup>
+              </ActionsBar>
+
             <table style={{width: '100%'}}>
               <thead>
                 <tr>
