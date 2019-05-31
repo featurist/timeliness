@@ -31,28 +31,27 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginRight: theme.spacing(2)
   },
-  
 
-    duration: {
-      backgroundColor: green[50]
-    },
-    noDuration: {
-      backgroundColor: red[50]
-    },
-    selected: {
-      backgroundColor: lime['A400'],
-      borderWidth: 0.5,
-      borderColor: lime['A700'],
-      borderStyle: 'dashed'
-    },
-    weekend: {
-      backgroundColor: theme.palette.grey[50] + '50',
-      opacity: 0.3
-    },
-    publicholiday: {
-      backgroundColor: orange[50] + '70'
-    }
-  
+  // row/cell styles
+  duration: {
+    backgroundColor: green[50]
+  },
+  noDuration: {
+    backgroundColor: red[50]
+  },
+  selected: {
+    backgroundColor: lime['A400'],
+    borderWidth: 0.5,
+    borderColor: lime['A700'],
+    borderStyle: 'dashed'
+  },
+  weekend: {
+    backgroundColor: theme.palette.grey[50] + '50',
+    opacity: 0.3
+  },
+  publicholiday: {
+    backgroundColor: orange[50] + '70'
+  }  
 }));
 
 function renderDate (date) {
