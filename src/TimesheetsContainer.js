@@ -85,6 +85,50 @@ export default class TimesheetsContainer extends Container {
           type: 'weekend',
           comments: [],
         },
+        {
+          date: '2019-05-24',
+          tasks: {
+          },
+          comments: [],
+        },
+        {
+          date: '2019-05-23',
+          tasks: {
+          },
+          comments: [],
+        },
+        {
+          date: '2019-05-22',
+          tasks: {
+          },
+          comments: [],
+        },
+        {
+          date: '2019-05-21',
+          tasks: {
+          },
+          comments: [],
+        },
+        {
+          date: '2019-05-20',
+          tasks: {
+          },
+          comments: [],
+        },
+        {
+          date: '2019-05-19',
+          tasks: {
+          },
+          type: 'weekend',
+          comments: [],
+        },
+        {
+          date: '2019-05-18',
+          tasks: {
+          },
+          type: 'weekend',
+          comments: [],
+        },
       ],
       tasks: {
         ttc: {
