@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import PageContainer from "@material-ui/core/Container"
 import { AppBar, Paper, TextField, Checkbox, Button, Toolbar, FormGroup, TableBody } from "@material-ui/core"
@@ -33,15 +34,16 @@ const useStyles = makeStyles(theme => ({
   },
 
   // row/cell styles
-  duration: {
-    backgroundColor: green[50]
-  },
   noDuration: {
     backgroundColor: red[50],
     borderWidth: 2,
     borderColor: red['A100'],
     borderStyle: 'dashed'
 
+  },
+  duration: {
+    backgroundColor: green[50],
+    borderColor: "transparent",
   },
   selected: {
     backgroundColor: lime['A400'],
@@ -132,7 +134,11 @@ function Timesheets () {
                         ev.stopPropagation()
                       }
 
-                      return <TableCell key={`tableCellTitle-${index}`} onClick={selectDaysForTask}>{task.name}</TableCell>
+                      return <TableCell
+                        key={`tableCellTitle-${index}`}
+                        onClick={selectDaysForTask}>
+                          {task.name}
+                      </TableCell>
                     })}
                     <TableCell>
                       Comments
@@ -142,10 +148,7 @@ function Timesheets () {
                 <TableBody>
                   {
                     timesheets.days().map((day, index) => {
-                      const dayTypeClass = classes[day.type]
-                      console.log(dayTypeClass);
-                      
-                      return <TableRow key={`tableRow-${index}`} className={dayTypeClass}>
+                      return <TableRow key={`tableRow-${index}`} className={classes[day.type]}>
                         <TableCell padding="checkbox">
                           <Checkbox disabled />
                         </TableCell>
@@ -154,13 +157,16 @@ function Timesheets () {
                           tasks.map(task => {
                             const dayTask = day.tasks[task.id]
 
-                            const className = s => [dayTask && dayTask.selected ? classes.selected : '', s].filter(Boolean).join(' ')
-
-                            if (dayTask.duration) {
-                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(classes.duration)}>{renderDuration(dayTask.duration)}</TableCell>
-                            } else {
-                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(["weekend", "publicholiday"].includes(day.type) ? '' : classes.noDuration)}></TableCell>
-                            }
+                            return <TableCell
+                              key={task.id}
+                              onClick={() => timesheets.toggleSelection(dayTask)}
+                              className={clsx({
+                                [classes.selected]: dayTask && dayTask.selected,
+                                [classes.duration]: dayTask && dayTask.duration,
+                                [classes.noDuration]: dayTask && !dayTask.duration && !["weekend", "publicholiday"].includes(day.type),
+                              })}>
+                                {dayTask && dayTask.duration ? renderDuration(dayTask.duration) : ''}
+                            </TableCell>
                           })
                         }
                         <TableCell>{day.comments.join()}</TableCell>
