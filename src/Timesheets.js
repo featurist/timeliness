@@ -159,7 +159,7 @@ function Timesheets () {
                             if (dayTask.duration) {
                               return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(classes.duration)}>{renderDuration(dayTask.duration)}</TableCell>
                             } else {
-                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(classes.noDuration)}></TableCell>
+                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(["weekend", "publicholiday"].includes(day.type) ? '' : classes.noDuration)}></TableCell>
                             }
                           })
                         }
