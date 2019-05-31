@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import PageContainer from "@material-ui/core/Container"
-import { Paper, TextField, Checkbox, Button, Toolbar, FormGroup, Typography, TableBody } from "@material-ui/core"
+import { AppBar, Paper, TextField, Checkbox, Button, Toolbar, FormGroup, Typography, TableBody } from "@material-ui/core"
 import { Table, TableRow, TableCell, TableHead } from "@material-ui/core"
 import { Provider, Subscribe, Container } from 'unstated'
 import parseDuration from 'iso8601-duration'
@@ -19,8 +19,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4)
   },
   actionBar: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
   },
   submit: {
     marginTop: 8,
@@ -73,22 +73,23 @@ function Timesheets () {
         return <>
           <PageContainer maxWidth="xl" className={classes.pageContainer}>
             <Paper>
-              <Toolbar className={classes.actionBar}>
-                <FormGroup row>
-                  <TextField
-                    label="Duration"
-                    type="text"
-                    name="duration"
-                    margin="dense"
-                    variant="outlined"
-                    value={fillDuration}
-                    onChange={ev => setFillDuration(ev.target.value)}
-                    className={classes.textField}
-                  />
-                  <Button className={classes.submit} variant="contained" color="secondary" size="medium" onClick={() => timesheets.fillSelected(ms(fillDuration))}>Fill Selected</Button>
-                </FormGroup>
-              </Toolbar>
-
+              <AppBar position="sticky" color="default" elevation={0}>
+                <Toolbar className={classes.actionBar}>
+                  <FormGroup row>
+                    <TextField
+                      label="Duration"
+                      type="text"
+                      name="duration"
+                      margin="dense"
+                      variant="outlined"
+                      value={fillDuration}
+                      onChange={ev => setFillDuration(ev.target.value)}
+                      className={classes.textField}
+                    />
+                    <Button className={classes.submit} variant="contained" color="secondary" size="medium" onClick={() => timesheets.fillSelected(ms(fillDuration))}>Fill Selected</Button>
+                  </FormGroup>
+                </Toolbar>
+              </AppBar>
               <Table>
                 <TableHead>
                   <TableRow>
