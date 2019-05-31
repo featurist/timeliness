@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import styled from "styled-components"
 import PageContainer from "@material-ui/core/Container"
-import Paper from "@material-ui/core/Paper"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import Toolbar from "@material-ui/core/Toolbar"
-import FormGroup from "@material-ui/core/FormGroup"
+import { Paper, TextField, Checkbox, Button, Toolbar, FormGroup, Typography, TableBody } from "@material-ui/core"
+import { Table, TableRow, TableCell, TableHead } from "@material-ui/core"
 import { Provider, Subscribe, Container } from 'unstated'
 import parseDuration from 'iso8601-duration'
 import NavBar from "./components/NavBar"
@@ -89,43 +86,56 @@ function Timesheets () {
                 </FormGroup>
               </ActionsBar>
 
-            <table style={{width: '100%'}}>
-              <thead>
-                <tr>
-                  <th>date</th>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell>
+                      Date
+                    </TableCell>
                     {tasks.map(task => {
                       const selectDaysForTask = ev => {
                         timesheets.selectDaysForTask(task)
                         ev.stopPropagation()
                       }
 
-                      return <th onClick={selectDaysForTask}>{task.name}</th>
+                      return <TableCell onClick={selectDaysForTask}>{task.name}</TableCell>
                     })}
-                </tr>
-              </thead>
-              <tbody>{
-                timesheets.days().map(day => {
-                  const className = dayStyle[day.type]
-                  return <tr className={className}>
-                    <td>{renderDate(day.date)}</td>
-                    {
-                      tasks.map(task => {
-                        const dayTask = day.tasks[task.id]
+                    <TableCell>
+                      Comments
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    timesheets.days().map(day => {
+                      const className = dayStyle[day.type]
+                      return <TableRow className={className}>
+                        <TableCell padding="checkbox">
+                          <Checkbox />
+                        </TableCell>
+                        <TableCell>{renderDate(day.date)}</TableCell>
+                        {
+                          tasks.map(task => {
+                            const dayTask = day.tasks[task.id]
 
-                        const className = s => [dayTask && dayTask.selected ? style.selected : '', s].filter(Boolean).join(' ')
+                            const className = s => [dayTask && dayTask.selected ? style.selected : '', s].filter(Boolean).join(' ')
 
-                        if (dayTask.duration) {
-                          return <td onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.duration)}>{renderDuration(dayTask.duration)}</td>
-                        } else {
-                          return <td onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.noDuration)}></td>
+                            if (dayTask.duration) {
+                              return <TableCell onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.duration)}>{renderDuration(dayTask.duration)}</TableCell>
+                            } else {
+                              return <TableCell onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.noDuration)}></TableCell>
+                            }
+                          })
                         }
-                      })
-                    }
-                    <td>{day.comments.join()}</td>
-                  </tr>
-                })
-              }</tbody>
-            </table>
+                        <TableCell>{day.comments.join()}</TableCell>
+                      </TableRow>
+                    })
+                  }
+                </TableBody>
+              </Table>
             </Paper>
           </PageContainer>  
         </>
