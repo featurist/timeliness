@@ -37,11 +37,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: green[50]
   },
   noDuration: {
-    backgroundColor: red[50]
+    backgroundColor: red[50],
+    borderWidth: 2,
+    borderColor: red['A100'],
+    borderStyle: 'dashed'
+
   },
   selected: {
     backgroundColor: lime['A400'],
-    borderWidth: 0.5,
+    borderWidth: 2,
     borderColor: lime['A700'],
     borderStyle: 'dashed'
   },
