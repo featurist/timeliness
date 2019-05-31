@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import PageContainer from "@material-ui/core/Container"
-import { AppBar, Paper, TextField, Checkbox, Button, Toolbar, FormGroup, Typography, TableBody } from "@material-ui/core"
+import { AppBar, Paper, TextField, Checkbox, Button, Toolbar, FormGroup, TableBody } from "@material-ui/core"
 import { Table, TableRow, TableCell, TableHead } from "@material-ui/core"
+import orange from '@material-ui/core/colors/orange'
+import red from '@material-ui/core/colors/red'
+import lime from '@material-ui/core/colors/lime'
+import green from '@material-ui/core/colors/green'
 import { Provider, Subscribe, Container } from 'unstated'
 import parseDuration from 'iso8601-duration'
 import NavBar from "./components/NavBar"
 import TimesheetsContainer from './TimesheetsContainer'
 import humanizeDuration from 'humanize-duration'
-import style from './Timesheets.module.css'
-import dayStyle from './Day.module.css'
 import dateFormat from 'dateformat'
 import ms from 'ms'
 
@@ -29,6 +31,28 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginRight: theme.spacing(2)
   },
+  
+
+    duration: {
+      backgroundColor: green[50]
+    },
+    noDuration: {
+      backgroundColor: red[50]
+    },
+    selected: {
+      backgroundColor: lime['A400'],
+      borderWidth: 0.5,
+      borderColor: lime['A700'],
+      borderStyle: 'dashed'
+    },
+    weekend: {
+      backgroundColor: theme.palette.grey[50] + '50',
+      opacity: 0.3
+    },
+    publicholiday: {
+      backgroundColor: orange[50] + '70'
+    }
+  
 }));
 
 function renderDate (date) {
@@ -115,8 +139,10 @@ function Timesheets () {
                 <TableBody>
                   {
                     timesheets.days().map((day, index) => {
-                      const className = dayStyle[day.type]
-                      return <TableRow key={`tableRow-${index}`} className={className}>
+                      const dayTypeClass = classes[day.type]
+                      console.log(dayTypeClass);
+                      
+                      return <TableRow key={`tableRow-${index}`} className={dayTypeClass}>
                         <TableCell padding="checkbox">
                           <Checkbox />
                         </TableCell>
@@ -125,12 +151,12 @@ function Timesheets () {
                           tasks.map(task => {
                             const dayTask = day.tasks[task.id]
 
-                            const className = s => [dayTask && dayTask.selected ? style.selected : '', s].filter(Boolean).join(' ')
+                            const className = s => [dayTask && dayTask.selected ? classes.selected : '', s].filter(Boolean).join(' ')
 
                             if (dayTask.duration) {
-                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.duration)}>{renderDuration(dayTask.duration)}</TableCell>
+                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(classes.duration)}>{renderDuration(dayTask.duration)}</TableCell>
                             } else {
-                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(style.noDuration)}></TableCell>
+                              return <TableCell key={task.id} onClick={() => timesheets.toggleSelection(dayTask)} className={className(classes.noDuration)}></TableCell>
                             }
                           })
                         }
